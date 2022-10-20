@@ -15,7 +15,7 @@ commands:
       - run: cd cdk
       - run: npm install
       - run: cdk deploy eetwat-frontend-tst
-  deploy-test:
+  deploy-prod:
       steps:
         - run: cd cdk
         - run: npm install

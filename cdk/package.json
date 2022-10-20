@@ -9,7 +9,7 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
-    "deploy-tst": "cdk deploy eetwat-frontend-tst --require-approval never"
+    "deploy-tst": "cdk deploy eetwat-frontend-tst --require-approval never",
     "deploy-prd": "cdk deploy eetwat-frontend-prd --require-approval never"
   },
   "devDependencies": {

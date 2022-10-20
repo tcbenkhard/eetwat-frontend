@@ -12,10 +12,10 @@ commands:
       - run: npm run build
   deploy-test:
     steps:
-      - run: cd cdk; npm install; cdk deploy eetwat-frontend-tst
+      - run: cd cdk; npm install; npm run deploy-tst
   deploy-prod:
       steps:
-        - run: cd cdk; npm install; cdk deploy eetwat-frontend-prd
+        - run: cd cdk; npm install; npm run deploy-prd
 
 jobs:
   build-test:

@@ -7,10 +7,10 @@ interface MealItemProps {
     meal: Meal
 }
 
-export default ({meal}: MealItemProps) => {
+const MealItem = ({meal}: MealItemProps) => {
     return (
         <div className={'meal-item'}>
-            <span className={'meal-item-icon'}><img src={'https://via.placeholder.com/150'}></img></span>
+            <span className={'meal-item-icon'}><img alt="placeholder" src={'https://via.placeholder.com/150'}></img></span>
             <span className={'meal-item-body'}>
                 <span className={'meal-item-body-title'}>{meal.name}</span>
                 <span className={'meal-item-body-specs'}><FontAwesomeIcon icon={faClock} color={'green'}></FontAwesomeIcon> {meal.durationInMinutes} min</span>
@@ -19,3 +19,5 @@ export default ({meal}: MealItemProps) => {
         </div>
     );
 }
+
+export default MealItem;

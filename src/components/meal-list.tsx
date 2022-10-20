@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {MealClient} from "../client/meal-client";
 import {Meal} from "../model/meal";
 import MealItem from "./meal-item";
@@ -8,7 +8,7 @@ const mealClient = new MealClient();
 
 const shuffle = (array: Array<any>) => {
     let currentIndex = array.length,  randomIndex;
-    while (currentIndex != 0) {
+    while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex--;
         [array[currentIndex], array[randomIndex]] = [
@@ -18,7 +18,7 @@ const shuffle = (array: Array<any>) => {
     return array;
 }
 
-export default () => {
+const MealList = () => {
     const [meals, setMeals] = useState<Meal[]>([]);
 
     useEffect(() => {
@@ -37,3 +37,5 @@ export default () => {
         </div>
     )
 }
+
+export default MealList;

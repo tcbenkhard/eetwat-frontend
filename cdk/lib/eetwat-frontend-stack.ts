@@ -3,6 +3,7 @@ import {Construct} from 'constructs';
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 import * as deploy from 'aws-cdk-lib/aws-s3-deployment';
 import * as route53 from 'aws-cdk-lib/aws-route53';
+import * as targets from 'aws-cdk-lib/aws-route53-targets';
 import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
@@ -25,7 +26,10 @@ export class EetwatFrontendStack extends cdk.Stack {
         const WEB_APP_DOMAIN = hostnames[props.environment];
 
         const hostedZoneId = ssm.StringParameter.valueForStringParameter(this, '/com/benkhard/public-hosted-zone-id');
-        const zone = route53.HostedZone.fromHostedZoneId(this, 'Zone', hostedZoneId);
+        const zone = route53.HostedZone.fromHostedZoneAttributes(this, 'Zone', {
+            hostedZoneId: hostedZoneId,
+            zoneName: 'benkhard.com'
+        })
 
         const siteBucket = new s3.Bucket(this, "SiteBucket", {
             bucketName: WEB_APP_DOMAIN,
@@ -52,11 +56,11 @@ export class EetwatFrontendStack extends cdk.Stack {
             })
         });
 
-        // new route53.ARecord(this, "SiteRecord", {
-        //     recordName: WEB_APP_DOMAIN,
-        //     target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(siteDistribution)),
-        //     zone
-        // });
+        new route53.ARecord(this, "SiteRecord", {
+            recordName: WEB_APP_DOMAIN,
+            target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(siteDistribution)),
+            zone
+        });
 
         new deploy.BucketDeployment(this, "Deployment", {
             sources: [deploy.Source.asset("../build")],

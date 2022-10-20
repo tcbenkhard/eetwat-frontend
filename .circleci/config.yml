@@ -12,10 +12,14 @@ commands:
       - run: npm run build
   deploy-test:
     steps:
-      - run: npm run deploy-test
-  deploy-prod:
-    steps:
-      - run: npm run deploy-prod
+      - run: cd cdk
+      - run: npm install
+      - run: cdk deploy eetwat-frontend-tst
+  deploy-test:
+      steps:
+        - run: cd cdk
+        - run: npm install
+        - run: cdk deploy eetwat-frontend-prd
 
 jobs:
   build-test:
@@ -28,6 +32,16 @@ jobs:
           root: .
           paths:
             - .
+  build-prod:
+      executor: aws-cli/default
+      environment:
+        REACT_APP_MEALS_API_ENDPOINT=https://i3h1u6j7f0.execute-api.eu-west-1.amazonaws.com/prod
+      steps:
+        - build
+        - persist_to_workspace:
+            root: .
+            paths:
+              - .
   deploy-test:
     machine:
       image: ubuntu-2204:2022.10.1
@@ -48,3 +62,6 @@ workflows:
   build:
     jobs:
       - build-test
+      - deploy-test:
+          requires:
+            - build-test

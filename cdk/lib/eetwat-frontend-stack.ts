@@ -64,7 +64,7 @@ export class EetwatFrontendStack extends cdk.Stack {
         });
 
         new deploy.BucketDeployment(this, "Deployment", {
-            sources: [deploy.Source.asset("./build")],
+            sources: [deploy.Source.asset("../build")],
             destinationBucket: siteBucket,
             distribution: siteDistribution,
             distributionPaths: ["/*"]

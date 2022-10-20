@@ -1,0 +1,44 @@
+.meal-item {
+  border-radius: 0.5em;
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  font-family: 'Roboto';
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  background-color: #FFFFFF;
+
+  &-icon {
+    display: flex;
+    justify-content: center;
+
+    & img {
+      border-radius: 50%;
+      height: 3em;
+      padding: 0.5em;
+    }
+  }
+
+  &-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.2em;
+
+    &-title {
+      font-weight: 700;
+      font-size: 1em;
+    }
+
+    &-specs {
+      font-size: 0.75em;
+    }
+
+    &-tags {
+      font-size: 0.75em;
+      display: flex;
+      flex-direction: row;
+      justify-content: start;
+      gap: 0.5em;
+    }
+  }
+}

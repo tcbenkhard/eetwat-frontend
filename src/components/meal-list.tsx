@@ -3,6 +3,8 @@ import {MealClient} from "../client/meal-client";
 import {Meal} from "../model/meal";
 import MealItem from "./meal-item";
 import './meal-list.scss';
+import ActionButton from "./action-button";
+import {faRefresh} from "@fortawesome/free-solid-svg-icons";
 
 const mealClient = new MealClient();
 
@@ -22,19 +24,24 @@ const MealList = () => {
     const [meals, setMeals] = useState<Meal[]>([]);
 
     useEffect(() => {
-        mealClient.getAll().then((meals) => {
-            console.log('Fetched meals', meals);
-            shuffle(meals);
-            setMeals(meals);
-        });}
-    , []);
+            mealClient.getAll().then((meals) => {
+                console.log('Fetched meals', meals);
+                shuffle(meals);
+                setMeals(meals);
+            });}
+        , []);
 
     return (
-        <div id={'meal-list'}>
-            {
-                meals.map(meal => <MealItem meal={meal} key={meal.id}/>)
-            }
-        </div>
+        <>
+            <div className={'action-buttons'}>
+                <ActionButton icon={faRefresh} onClickHandler={() => console.log('Clicked!') } />
+            </div>
+            <div id={'meal-list'}>
+                {
+                    meals.map(meal => <MealItem meal={meal} key={meal.id}/>)
+                }
+            </div>
+        </>
     )
 }
 

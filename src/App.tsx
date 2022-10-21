@@ -5,6 +5,7 @@ import MealList from "./components/meal-list";
 const App = () => {
   return (
       <div id={'content'}>
+
         <MealList />
       </div>
   )

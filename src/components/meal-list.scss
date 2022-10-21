@@ -7,3 +7,10 @@
   flex-direction: column;
   gap: 0.4em;
 }
+
+.action-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 1em 1em 0em 1em;
+}

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {MealClient} from "../client/meal-client";
 import {Meal} from "../model/meal";
 import MealItem from "./meal-item";
@@ -22,19 +22,23 @@ const shuffle = (array: Array<any>) => {
 
 const MealList = () => {
     const [meals, setMeals] = useState<Meal[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    useEffect(() => {
-            mealClient.getAll().then((meals) => {
-                console.log('Fetched meals', meals);
-                shuffle(meals);
-                setMeals(meals);
-            });}
-        , []);
+    const reload = () => {
+        setIsLoading(true);
+        mealClient.getAll().then((meals) => {
+            console.log('Fetched meals', meals);
+            shuffle(meals);
+            setMeals(meals);
+        }).finally(() => setIsLoading(false));
+    }
+
+    useEffect(reload, []);
 
     return (
         <>
             <div className={'action-buttons'}>
-                <ActionButton icon={faRefresh} onClickHandler={() => console.log('Clicked!') } />
+                <ActionButton icon={faRefresh} onClickHandler={ reload } active={isLoading}/>
             </div>
             <div id={'meal-list'}>
                 {

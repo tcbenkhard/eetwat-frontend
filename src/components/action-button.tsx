@@ -9,7 +9,7 @@ interface ActionButtonProps {
 
 const ActionButton = ({icon, onClickHandler}: ActionButtonProps) => {
     return (
-        <button><FontAwesomeIcon icon={icon} onClick={onClickHandler}/></button>
+        <button className={'action-button'}><FontAwesomeIcon icon={icon} onClick={onClickHandler} size={'2x'}/></button>
     );
 }
 

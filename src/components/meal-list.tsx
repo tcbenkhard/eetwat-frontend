@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {MealClient} from "../client/meal-client";
 import {Meal} from "../model/meal";
 import MealItem from "./meal-item";

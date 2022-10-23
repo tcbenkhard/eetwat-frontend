@@ -5,6 +5,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import "@fontsource/roboto";
 import './global.scss'
+import {configureAmplify} from "./amplify";
+
+configureAmplify();
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

@@ -1,16 +1,8 @@
 #meal-list {
   width: 100%;
-  padding: 1em;
   box-sizing: border-box;
   background-color: #FAFAFA;
   display: flex;
   flex-direction: column;
   gap: 0.4em;
-}
-
-.action-buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  padding: 1em 1em 0em 1em;
 }

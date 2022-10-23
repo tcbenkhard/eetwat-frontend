@@ -5,6 +5,12 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import "@fontsource/roboto";
 import './global.scss'
+import {configuration} from "./amplify";
+import {Amplify, Auth} from "aws-amplify";
+
+Amplify.configure(configuration);
+Auth.configure(configuration);
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

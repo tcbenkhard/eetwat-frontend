@@ -1,12 +1,12 @@
 import React from 'react';
 import './App.scss';
-import MealList from "./components/meal-list";
+import OverviewPage from "./page/overview-page";
 
 const App = () => {
   return (
       <div id={'content'}>
 
-        <MealList />
+        <OverviewPage />
       </div>
   )
 }

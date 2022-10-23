@@ -7,9 +7,18 @@
   background-color: #00000030;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   padding: 2em;
   box-sizing: border-box;
+}
+
+.error {
+  font-family: Roboto;
+  font-size: 0.9em;
+  background-color: #ff7474;
+  border-radius: 0.5em;
+  padding: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 .modal-container {
@@ -18,11 +27,19 @@
   width: 100%;
   box-sizing: border-box;
   border-radius: 0.5em;
+  position: relative;
 
   &-buttons {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+  }
+
+  &-exit {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1em;
   }
 }
 

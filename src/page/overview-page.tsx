@@ -4,7 +4,7 @@ import {Meal} from "../model/meal";
 import {MealClient} from "../client/meal-client";
 import Controls from "../components/controls";
 import ActionButton from "../components/action-button";
-import {faRefresh, faSignIn, faSignOut} from "@fortawesome/free-solid-svg-icons";
+import {faPlus, faRefresh, faSignIn, faSignOut} from "@fortawesome/free-solid-svg-icons";
 import './overview.scss';
 import LoginModal from "../components/login-modal";
 import {Auth} from 'aws-amplify';
@@ -84,6 +84,7 @@ const OverviewPage = () => {
             <LoginModal visible={modalVisible} onCancelClicked={closeModal} onLoginClicked={signIn} error={error}/>
             <Controls>
                 <ActionButton icon={faRefresh} onClickHandler={ reload } active={isLoading} />
+                { user ? <ActionButton icon={faPlus} onClickHandler={() => console.log('Add clicked')} /> : '' }
                 { user ?
                     <ActionButton icon={faSignOut} onClickHandler={ signOut } /> :
                     <ActionButton icon={faSignIn} onClickHandler={ showLoginModal } />

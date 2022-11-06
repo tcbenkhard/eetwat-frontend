@@ -9,6 +9,7 @@
   justify-content: center;
   align-items: flex-start;
   padding: 2em;
+  padding-top: 0em;
   box-sizing: border-box;
 }
 
@@ -21,13 +22,22 @@
   margin-bottom: 0.5em;
 }
 
+.modal-open {
+  margin-top: 0px !important;
+}
+
 .modal-container {
+  margin-top: -200px;
   background-color: white;
   padding: 1em;
+  padding-top: 2em;
   width: 100%;
   box-sizing: border-box;
   border-radius: 0.5em;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
   position: relative;
+  transition: margin-top 350ms cubic-bezier(0.39, 0.58, 0.57, 1);
 
   &-buttons {
     display: flex;

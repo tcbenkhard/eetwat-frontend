@@ -1,0 +1,16 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  font-family: Roboto;
+
+  & input {
+    box-sizing: border-box;
+    width: 100%;
+    line-height: 2em;
+  }
+
+  & button {
+    line-height: 1.5em;
+  }
+}

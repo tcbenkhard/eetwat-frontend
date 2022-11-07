@@ -8,7 +8,7 @@ import {faPlus, faRefresh, faSignIn, faSignOut} from "@fortawesome/free-solid-sv
 import './overview.scss';
 import LoginModal from "../components/login-modal";
 import {Auth} from 'aws-amplify';
-import CreationModal from "../components/creation-modal";
+import CreationModal, {CreateMealRequest} from "../components/creation-modal";
 
 const shuffle = (array: Array<any>) => {
     let currentIndex = array.length,  randomIndex;
@@ -53,6 +53,14 @@ const OverviewPage = () => {
             });
     }
 
+    const create = (createRequest: CreateMealRequest) => {
+        mealClient.create(createRequest)
+            .then(() => console.log('Meal created'))
+            .then(() => setCreationModalVisible(false))
+            .then(() =>  reload());
+
+    }
+
     const signOut = () => {
         Auth.signOut({ global: true }).then(() => console.log('Signed out.'));
         setUser(undefined);
@@ -82,7 +90,7 @@ const OverviewPage = () => {
     return (
         <div id={'overview'}>
             <LoginModal visible={loginModalVisible} close={closeLoginModal} loginClicked={signIn} error={error}/>
-            <CreationModal visible={creationModalVisible} close={closeCreationModal}/>
+            <CreationModal visible={creationModalVisible} close={closeCreationModal} createClicked={create}/>
             <Controls>
                 <ActionButton icon={faRefresh} onClickHandler={ reload } active={isLoading} />
                 { user ? <ActionButton icon={faPlus} onClickHandler={() => setCreationModalVisible(true) } /> : '' }

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {Meal} from "../model/meal";
+import {CreateMealRequest} from "../components/creation-modal";
 
 export class MealClient {
 
@@ -9,11 +10,12 @@ export class MealClient {
         return response.data as Meal[]
     }
 
-    create = async (meal: Meal): Promise<Meal> => {
+    create = async (meal: CreateMealRequest): Promise<Meal> => {
         // const currentSession = await Auth.currentSession();
         // const token = currentSession.getAccessToken().getJwtToken();
 
-        const result = await axios.post(`${process.env.REACT_APP_MEALS_API_ENDPOINT}/meals`, meal);
+        const result = await axios.post(`${process.env.REACT_APP_MEALS_API_ENDPOINT}/meals`, JSON.stringify(meal), {
+        });
         return result.data as Meal;
     }
 }

@@ -1,14 +1,15 @@
 import './login-modal.scss';
 import {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTimes, faWarning} from '@fortawesome/free-solid-svg-icons';
+import {faWarning} from '@fortawesome/free-solid-svg-icons';
 import Input from "./input";
+import Modal from "./modal";
 
 interface LoginModalProps {
-    onLoginClicked: (username: string, password: string) => void,
-    onCancelClicked: () => void,
     visible: boolean
+    close: () => void
     error?: string
+    loginClicked: (username: string, password: string) => void
 }
 
 const LoginModal = (props: LoginModalProps) => {
@@ -16,25 +17,22 @@ const LoginModal = (props: LoginModalProps) => {
 
     const cancelClicked = () => {
         setFormdata({});
-        props.onCancelClicked();
+        props.close();
     }
 
     return (
-        <div className={`modal`} style={{visibility: props.visible ? "visible" : "hidden"}}>
-            <div className={`modal-container ${props.visible ? 'modal-open' : ''}`}>
-                <div className={'modal-container-exit'}><FontAwesomeIcon icon={faTimes} onClick={cancelClicked}/></div>
-                <h1>Inloggen</h1>
-                <div style={{display: props.error ? "block" : "none"}} className="error"><FontAwesomeIcon icon={faWarning} /> {props.error}</div>
-                <form onSubmit={(e) => e.preventDefault()} className={'login-form'}>
-                    <Input required={true} type={"text"} placeholder={'Gebruikersnaam'} onChange={(e) => setFormdata({...formdata, username: e.target.value})} value={formdata.username ?? ''}/>
-                    <Input required={true} type={"password"} placeholder={'Password'} onChange={(e) => setFormdata({...formdata, password: e.target.value})} value={formdata.password ?? ''}/>
-                    <div className="modal-container-buttons">
-                        <button onClick={() => props.onLoginClicked(formdata.username!, formdata.password!)}>Inloggen</button>
-                        <button onClick={cancelClicked}>Annuleren</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+        <Modal visible={props.visible} close={props.close}>
+            <h1>Inloggen</h1>
+            <div style={{display: props.error ? "block" : "none"}} className="error"><FontAwesomeIcon icon={faWarning} /> {props.error}</div>
+            <form onSubmit={(e) => e.preventDefault()} className={'login-form'}>
+                <Input required={true} type={"text"} placeholder={'Gebruikersnaam'} onChange={(e) => setFormdata({...formdata, username: e.target.value})} value={formdata.username ?? ''}/>
+                <Input required={true} type={"password"} placeholder={'Password'} onChange={(e) => setFormdata({...formdata, password: e.target.value})} value={formdata.password ?? ''}/>
+                <div className="modal-buttons">
+                    <button type={"button"} onClick={cancelClicked}>Annuleren</button>
+                    <button onClick={() => props.loginClicked(formdata.username!, formdata.password!)}>Inloggen</button>
+                </div>
+            </form>
+        </Modal>
     )
 }
 

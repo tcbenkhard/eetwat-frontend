@@ -8,6 +8,7 @@ import {faPlus, faRefresh, faSignIn, faSignOut} from "@fortawesome/free-solid-sv
 import './overview.scss';
 import LoginModal from "../components/login-modal";
 import {Auth} from 'aws-amplify';
+import CreationModal from "../components/creation-modal";
 
 const shuffle = (array: Array<any>) => {
     let currentIndex = array.length,  randomIndex;
@@ -26,7 +27,8 @@ const mealClient = new MealClient();
 const OverviewPage = () => {
     const [meals, setMeals] = useState<Meal[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [modalVisible, setModalVisible] = useState<boolean>(false);
+    const [loginModalVisible, setLoginModalVisible] = useState<boolean>(false);
+    const [creationModalVisible, setCreationModalVisible] = useState<boolean>(false);
     const [error, setError] = useState<string>();
     const [user, setUser] = useState();
 
@@ -37,17 +39,12 @@ const OverviewPage = () => {
         }).catch(() => setUser(undefined));
     }, []);
 
-    const showLoginModal = () => {
-        console.log('Sign in button pressed.');
-        setModalVisible(true);
-    }
-
     const signIn = (username: string, password: string) => {
         console.log(`Login clicked: ${username}:${password}`);
         Auth.signIn(username, password)
             .then(user => {
                 console.log('Sign in processed', user)
-                setModalVisible(false);
+                setLoginModalVisible(false);
                 setUser(user);
             })
             .catch(error => {
@@ -61,14 +58,17 @@ const OverviewPage = () => {
         setUser(undefined);
     }
 
-    const closeModal = () => {
-        console.log('Cancel clicked.')
-        setModalVisible(false);
+    const closeLoginModal = () => {
+        setLoginModalVisible(false);
+        setError(undefined);
+    }
+
+    const closeCreationModal = () => {
+        setCreationModalVisible(false);
         setError(undefined);
     }
 
     const reload = () => {
-
         setIsLoading(true);
         mealClient.getAll().then((meals) => {
             console.log('Fetched meals', meals);
@@ -81,13 +81,14 @@ const OverviewPage = () => {
 
     return (
         <div id={'overview'}>
-            <LoginModal visible={modalVisible} onCancelClicked={closeModal} onLoginClicked={signIn} error={error}/>
+            <LoginModal visible={loginModalVisible} close={closeLoginModal} loginClicked={signIn} error={error}/>
+            <CreationModal visible={creationModalVisible} close={closeCreationModal}/>
             <Controls>
                 <ActionButton icon={faRefresh} onClickHandler={ reload } active={isLoading} />
-                { user ? <ActionButton icon={faPlus} onClickHandler={() => console.log('Add clicked')} /> : '' }
+                { user ? <ActionButton icon={faPlus} onClickHandler={() => setCreationModalVisible(true) } /> : '' }
                 { user ?
                     <ActionButton icon={faSignOut} onClickHandler={ signOut } /> :
-                    <ActionButton icon={faSignIn} onClickHandler={ showLoginModal } />
+                    <ActionButton icon={faSignIn} onClickHandler={ () => setLoginModalVisible(true) } />
                 }
             </Controls>
             <MealList meals={meals}/>

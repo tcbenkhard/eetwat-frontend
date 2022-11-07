@@ -1,0 +1,28 @@
+.tags {
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.5em;
+
+  &-current {
+    flex-direction: row;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1.3em;
+    gap: 0.5em;
+    flex-wrap: wrap;
+    font-size: 0.8em;
+  }
+}
+
+.mealtag {
+  background-color: #95d9ff;
+  padding: 3px 7px;
+  border-radius: 1em;
+  height: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -13,7 +13,6 @@ const TagInput = (props: TagInputProps) => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const inputEvent = e.nativeEvent as InputEvent;
-        console.log(inputEvent);
         if(inputEvent.data === ' ' && value !== '') {
             props.setTags([...props.tags, value.toLowerCase()])
             setValue('');
@@ -40,7 +39,7 @@ const TagInput = (props: TagInputProps) => {
         <div className={'tags'}>
             <input type={"text"} onChange={handleChange} onKeyDown={handleKeyPress} value={value} placeholder={'Tags'}/>
             <div className={'tags-current'} style={{ display: props.tags.length > 0 ? 'inherit' : 'none'}}>
-                {props.tags?.map((tag, index) => <span className={'mealtag'} onClick={() => deleteTag(index)}>{tag}&nbsp;<FontAwesomeIcon icon={faTimes}/></span>)}
+                {props.tags?.map((tag, index) => <span key={index} className={'mealtag'} onClick={() => deleteTag(index)}>{tag}&nbsp;<FontAwesomeIcon icon={faTimes}/></span>)}
             </div>
         </div>
     )

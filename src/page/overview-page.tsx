@@ -1,7 +1,7 @@
 import MealList from "../components/meal-list";
 import {useEffect, useState} from "react";
 import {Meal} from "../model/meal";
-import {MealClient} from "../client/meal-client";
+import {MealClient, MealClientContext} from "../client/meal-client";
 import Controls from "../components/controls";
 import ActionButton from "../components/action-button";
 import {faPlus, faRefresh, faSignIn, faSignOut} from "@fortawesome/free-solid-svg-icons";
@@ -53,12 +53,9 @@ const OverviewPage = () => {
             });
     }
 
-    const create = (createRequest: CreateMealRequest) => {
-        mealClient.create(createRequest)
-            .then(() => console.log('Meal created'))
-            .then(() => setCreationModalVisible(false))
-            .then(() =>  reload());
-
+    const onSuccess = () => {
+        setCreationModalVisible(false);
+        reload();
     }
 
     const signOut = () => {
@@ -88,19 +85,21 @@ const OverviewPage = () => {
     useEffect(reload, []);
 
     return (
-        <div id={'overview'}>
-            <LoginModal visible={loginModalVisible} close={closeLoginModal} loginClicked={signIn} error={error}/>
-            <CreationModal visible={creationModalVisible} close={closeCreationModal} createClicked={create}/>
-            <Controls>
-                <ActionButton icon={faRefresh} onClickHandler={ reload } active={isLoading} />
-                { user ? <ActionButton icon={faPlus} onClickHandler={() => setCreationModalVisible(true) } /> : '' }
-                { user ?
-                    <ActionButton icon={faSignOut} onClickHandler={ signOut } /> :
-                    <ActionButton icon={faSignIn} onClickHandler={ () => setLoginModalVisible(true) } />
-                }
-            </Controls>
-            <MealList meals={meals}/>
-        </div>
+        <MealClientContext.Provider value={mealClient}>
+            <div id={'overview'}>
+                <LoginModal visible={loginModalVisible} close={closeLoginModal} loginClicked={signIn} error={error}/>
+                <CreationModal visible={creationModalVisible} close={closeCreationModal} onSuccess={onSuccess}/>
+                <Controls>
+                    <ActionButton icon={faRefresh} onClickHandler={ reload } active={isLoading} />
+                    { user ? <ActionButton icon={faPlus} onClickHandler={() => setCreationModalVisible(true) } /> : '' }
+                    { user ?
+                        <ActionButton icon={faSignOut} onClickHandler={ signOut } /> :
+                        <ActionButton icon={faSignIn} onClickHandler={ () => setLoginModalVisible(true) } />
+                    }
+                </Controls>
+                <MealList meals={meals}/>
+            </div>
+        </MealClientContext.Provider>
     )
 }
 

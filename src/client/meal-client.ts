@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {Meal} from "../model/meal";
 import {CreateMealRequest} from "../components/creation-modal";
+import React from "react";
 
 export class MealClient {
 
@@ -19,3 +20,5 @@ export class MealClient {
         return result.data as Meal;
     }
 }
+
+export const MealClientContext = React.createContext(new MealClient());

@@ -8,8 +8,13 @@ interface ModalProps extends React.PropsWithChildren {
 }
 
 const Modal = (props: ModalProps) => {
+
+    const handleOnClick = (e: any) => {
+        if(e.target.id === 'modal-container') props.close();
+    }
+
     return (
-        <div className={`modal-container ${props.visible ? 'modal-container-open' : ''}`}>
+        <div id="modal-container" onClick={handleOnClick} className={`modal-container ${props.visible ? 'modal-container-open' : ''}`}>
             <div className={`modal ${props.visible ? 'modal-open' : ''}`}>
                 <div className={'modal-exit'}><FontAwesomeIcon icon={faTimes} onClick={props.close}/></div>
                 {props.children}

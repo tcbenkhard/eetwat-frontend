@@ -8,7 +8,7 @@ import {faPlus, faRefresh, faSignIn, faSignOut} from "@fortawesome/free-solid-sv
 import './overview.scss';
 import LoginModal from "../components/login-modal";
 import {Auth} from 'aws-amplify';
-import CreationModal, {CreateMealRequest} from "../components/creation-modal";
+import CreationModal from "../components/creation-modal";
 
 const shuffle = (array: Array<any>) => {
     let currentIndex = array.length,  randomIndex;

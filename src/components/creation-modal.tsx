@@ -2,15 +2,15 @@ import Modal from "./modal";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faWarning} from "@fortawesome/free-solid-svg-icons";
 import Input from "./input";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import Form from "./form";
 import TagInput from "./tag-input";
+import {MealClientContext} from "../client/meal-client";
 
 interface CreationModalProps {
     visible: boolean
     close: () => void
-    error?: string
-    createClicked: (request: CreateMealRequest) => void
+    onSuccess: () => void
 }
 
 export interface CreateMealRequest {
@@ -21,24 +21,37 @@ export interface CreateMealRequest {
 
 const CreationModal = (props: CreationModalProps) => {
     const [formdata, setFormdata] = useState<Partial<CreateMealRequest>>({});
+    const [error, setError] = useState<string>();
+    const [processing, setProcessing] = useState<boolean>(false);
+
+    const mealClient = useContext(MealClientContext);
 
     const cancelClicked = () => {
         setFormdata({})
         props.close();
     }
 
+    const createClicked = (request: CreateMealRequest) => {
+        setProcessing(true);
+        mealClient.create(request)
+            .then(() => setFormdata({name: undefined, tags: undefined, durationInMinutes: undefined}))
+            .then(props.onSuccess)
+            .catch(e => setError(e.message))
+            .finally(() => setProcessing(false))
+    }
+
     return (
         <Modal visible={props.visible} close={props.close}>
             <h1>New meal</h1>
-            <div style={{display: props.error ? "block" : "none"}} className="error"><FontAwesomeIcon icon={faWarning} /> {props.error}</div>
+            <div style={{display: error ? "block" : "none"}} className="error"><FontAwesomeIcon icon={faWarning} /> {error}</div>
             <Form>
-                <Input type={"text"} placeholder={'Meal name'} onChange={(e) => setFormdata({...formdata, name: e.target.value})} />
-                <Input type={"number"} placeholder={'Duration'} postfix={'minutes'} onChange={(e) => setFormdata({...formdata, durationInMinutes: parseInt(e.target.value)})} />
+                <Input type={"text"} placeholder={'Meal name'} value={formdata.name ?? ''} onChange={(e) => setFormdata({...formdata, name: e.target.value})} />
+                <Input type={"number"} placeholder={'Duration'} postfix={'minutes'} value={formdata.durationInMinutes ?? ''} onChange={(e) => setFormdata({...formdata, durationInMinutes: parseInt(e.target.value)})} />
                 <TagInput tags={formdata.tags ?? []} setTags={(tags) => setFormdata({...formdata, tags})}/>
 
                 <div className="modal-buttons">
-                    <button type={"button"} onClick={cancelClicked}>Annuleren</button>
-                    <button onClick={() => props.createClicked({...formdata as CreateMealRequest})}>Aanmaken</button>
+                    <button disabled={processing} type={"button"} onClick={cancelClicked}>Annuleren</button>
+                    <button disabled={processing} onClick={() => createClicked({...formdata as CreateMealRequest})}>Aanmaken</button>
                 </div>
             </Form>
         </Modal>
